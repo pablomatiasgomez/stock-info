@@ -8,8 +8,6 @@ var NC = '\033[0m'; // No Color
 
 var URL ="http://www.ravaonline.com/v2/empresas/perfil.php?e=";
 
-process.argv.slice(2).forEach(getAndPrint);
-
 function getAndPrint(stockName) {
 	request(URL + stockName, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -45,3 +43,5 @@ function printValues(stockName, currentValue, variation) {
 	var color = variation.substring(0, 1) == "-" ? RED : GREEN;
 	console.log(stockName + " --> " + currentValue + " (" + color + variation + NC + ")");
 }
+
+process.argv.slice(2).forEach(getAndPrint);
