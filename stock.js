@@ -14,7 +14,7 @@ var NC = '\033[0m'; // No Color
 var URL_PREFIX ="http://www.ravaonline.com/v2/empresas/perfil.php?e=";
 
 function getAndPrint(stockName) {
-	var url = URL_PREFIX + (stockName.toUpperCase() == "MERV" ? "" : stockName); 
+	var url = URL_PREFIX + (stockName.toUpperCase().trim() == "MERV" ? "" : stockName);
 	request(url, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
 			var lines = body.split("\n");
