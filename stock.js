@@ -23,10 +23,12 @@ function getAndPrint(stockName) {
 			var variationLine = "";
 
 			lines.forEach(function(line) {
-				if (line.indexOf("font-size:36px;font-weight:bold") > -1) {
+				// Looks like <span class="fontsize6" style="font-weight:bold">28,40</span>
+				if (line.indexOf('<span class="fontsize6" style="font-weight:bold">') > -1) {
 					currentValueLine = line;
 				}
-				if (line.indexOf("font-size:16px;font-weight:bold;color") > -1) {
+				// Looks like <span class="fontsize3" style="font-weight:bold;color:red">-5,03%</span>
+				if (line.indexOf('<span class="fontsize3" style="font-weight:bold;color') > -1) {
 					variationLine = line;
 				}
 			});
@@ -34,9 +36,9 @@ function getAndPrint(stockName) {
 			if (currentValueLine && variationLine) {
 				var currentValue = currentValueLine.split(">")[2].split("<")[0];
 				var variation = variationLine.split(">")[2].split("<")[0];
-				var update = variationLine.split(">")[4].split("<")[0];
+				var updateTime = variationLine.split(">")[5].split("<")[0];
 
-				printValues(stockName, currentValue, variation, update, url);
+				printValues(stockName, currentValue, variation, updateTime, url);
 			} else {
 				console.error("Value not found for " + stockName);
 			}
@@ -46,9 +48,9 @@ function getAndPrint(stockName) {
 	});
 }
 
-function printValues(stockName, currentValue, variation, update, url) {
+function printValues(stockName, currentValue, variation, updateTime, url) {
 	var color = variation.substring(0, 1) == "-" ? RED : GREEN;
-	console.log(stockName + " --> " + currentValue + " (" + color + variation + NC + ") \t @ " + update + "\t" + url);
+	console.log(stockName + " --> " + currentValue + " (" + color + variation + NC + ") \t @ " + updateTime + "\t" + url);
 }
 
 var stockNames = process.argv.slice(2);
